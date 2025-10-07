@@ -75,7 +75,7 @@ export const generateTicketImage = async (imageFile: File, city: string): Promis
     
     ctx.font = 'bold 80px Poppins';
     ctx.fillStyle = '#FFC72C';
-    ctx.fillText('I', 90, 230);
+    ctx.fillText('II', 90, 230);
     
     ctx.font = '60px Poppins';
     ctx.fillStyle = 'white';
