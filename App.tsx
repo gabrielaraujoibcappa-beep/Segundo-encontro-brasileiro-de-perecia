@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from 'react';
 import { Header } from './components/Header';
 import { UploadStep } from './components/UploadStep';
@@ -10,20 +9,22 @@ const App: React.FC = () => {
   const [appState, setAppState] = useState<AppState>(AppState.UPLOAD);
   const [userImage, setUserImage] = useState<File | null>(null);
   const [city, setCity] = useState<string>('');
+  const [userName, setUserName] = useState<string>(''); // Novo estado para o nome do usuário
   const [generatedTicket, setGeneratedTicket] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleGenerate = useCallback(async (imageFile: File, city: string) => {
+  const handleGenerate = useCallback(async (imageFile: File, city: string, name: string) => { // Adicionado 'name'
     setIsLoading(true);
     setError(null);
     setGeneratedTicket(null);
 
     try {
-      const ticketUrl = await generateTicketImage(imageFile, city);
+      const ticketUrl = await generateTicketImage(imageFile, city, name); // Passando 'name'
       setGeneratedTicket(ticketUrl);
       setUserImage(imageFile);
       setCity(city);
+      setUserName(name); // Salvando o nome no estado
       setAppState(AppState.PREVIEW);
     } catch (err) {
       setError('Falha ao gerar o ingresso. Por favor, tente com outra imagem.');
@@ -37,6 +38,7 @@ const App: React.FC = () => {
     setAppState(AppState.UPLOAD);
     setUserImage(null);
     setCity('');
+    setUserName(''); // Resetando o nome do usuário
     setGeneratedTicket(null);
     setError(null);
   }, []);

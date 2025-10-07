@@ -39,7 +39,7 @@ const drawTextAlongArc = (
     ctx.restore();
 };
 
-export const generateTicketImage = async (imageFile: File, city: string): Promise<string> => {
+export const generateTicketImage = async (imageFile: File, city: string, userName: string): Promise<string> => { // Adicionado userName
     const canvas = document.createElement('canvas');
     canvas.width = 1080;
     canvas.height = 1920;
@@ -145,7 +145,7 @@ export const generateTicketImage = async (imageFile: File, city: string): Promis
     ctx.textAlign = 'center';
     ctx.font = 'bold 90px Poppins';
     ctx.fillStyle = 'white';
-    ctx.fillText('IBCAPPA ', circleX, 1180);
+    ctx.fillText(userName.toUpperCase(), circleX, 1180); // Usando userName aqui
 
     ctx.font = 'bold 70px Poppins';
     ctx.fillStyle = '#FFC72C';

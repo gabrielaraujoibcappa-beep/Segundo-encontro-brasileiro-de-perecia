@@ -3,7 +3,7 @@ import { Button } from './Button';
 import { UploadIcon, LoaderIcon } from './icons';
 
 interface UploadStepProps {
-  onGenerate: (imageFile: File, city: string) => void;
+  onGenerate: (imageFile: File, city: string, userName: string) => void; // Adicionado userName
   isLoading: boolean;
   error: string | null;
 }
@@ -12,6 +12,7 @@ export const UploadStep: React.FC<UploadStepProps> = ({ onGenerate, isLoading, e
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [city, setCity] = useState<string>('');
+  const [userName, setUserName] = useState<string>(''); // Novo estado para o nome
   const [isDragging, setIsDragging] = useState<boolean>(false);
 
   const handleFileChange = useCallback((files: FileList | null) => {
@@ -45,12 +46,12 @@ export const UploadStep: React.FC<UploadStepProps> = ({ onGenerate, isLoading, e
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (imageFile && city) {
-      onGenerate(imageFile, city);
+    if (imageFile && city && userName) { // Validar também o nome
+      onGenerate(imageFile, city, userName); // Passando o nome
     }
   };
 
-  const isFormValid = imageFile && city.trim().length > 0;
+  const isFormValid = imageFile && city.trim().length > 0 && userName.trim().length > 0; // Validar nome
 
   return (
     <div className="w-full flex flex-col gap-6 animate-fade-in">
@@ -76,6 +77,19 @@ export const UploadStep: React.FC<UploadStepProps> = ({ onGenerate, isLoading, e
           </label>
         </div>
         
+        <div>
+          <label htmlFor="name" className="sr-only">Seu Nome</label>
+          <input
+            type="text"
+            id="name"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            placeholder="Seu nome"
+            className="bg-gray-800 border-2 border-gray-600 text-white text-sm rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-3 transition"
+            required
+          />
+        </div>
+
         <div>
           <label htmlFor="city" className="sr-only">Cidade</label>
           <input
